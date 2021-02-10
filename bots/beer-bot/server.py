@@ -1,11 +1,8 @@
-import os
-from slack_bolt import App
-
-# Initializes your app with your bot token and signing secret
-app = App(
-    token=os.environ.get("SLACK_BOT_TOKEN"),
-    signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
-)
+"""
+The server is reacting to events from users interacting with the bot.
+"""
+import db
+from slack import app
 
 # Listens to incoming messages that contain "hello"
 @app.message("hello")
@@ -76,7 +73,7 @@ def register(ack, say, command):
         if day < 1 or day > 31:
             raise ValueError()
 
-        # TODO: save day somewhere
+        db.upsert_user_salary_date(user, day)
 
         say(f"<@{user}> взима заплата на {day} число")
     except ValueError:

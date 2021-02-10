@@ -64,6 +64,25 @@ def yes(body, ack, say):
     ack()
     say(f"<@{body['user']['id']}> clicked no")
 
+
+@app.command("/register")
+def register(ack, say, command):
+    # Acknowledge command request
+    ack()
+    user = command['user_name']
+    raw_day = command['text']
+    try:
+        day = int(raw_day)
+        if day < 1 or day > 31:
+            raise ValueError()
+
+        # TODO: save day somewhere
+
+        say(f"<@{user}> взима заплата на {day} число")
+    except ValueError:
+        say(f"<@{user}> въведе невалидно число на заплата {raw_day}")
+
+
 # Start your app
 if __name__ == "__main__":
     app.start(port=6666)

@@ -1,16 +1,19 @@
 import json
 
 class User:
-    def __init__(self, username, data=None):
+    def __init__(self, username, data={}):
         self.username = username
-        if data:
-            self.user_id = data.get('user_id')
-            self.salary_day = data.get('salary_day')
+        self.user_id = data.get('user_id')
+        self.salary_day = data.get('salary_day')
+        self.invitation_status = data.get('invitation_status')
+        self.invite_day = data.get('invite_day')
 
     def to_dict(self):
         return {
             'user_id': self.user_id,
-            'salary_day': self.salary_day
+            'salary_day': self.salary_day,
+            'invitation_status': self.invitation_status,
+            'invite_day': self.invite_day
         }
 
 

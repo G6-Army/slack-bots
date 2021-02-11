@@ -66,14 +66,15 @@ def yes(body, ack, say):
 def register(ack, say, command):
     # Acknowledge command request
     ack()
-    user = command['user_name']
+    username = command['user_name']
+    user_id = command['user_id']
     raw_day = command['text']
     try:
         day = int(raw_day)
         if day < 1 or day > 31:
             raise ValueError()
 
-        db.upsert_user_salary_date(user, day)
+        db.upsert_user_salary_date(username, user_id, day)
 
         say(f"<@{user}> взима заплата на {day} число")
     except ValueError:

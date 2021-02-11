@@ -56,7 +56,7 @@ def yes(body, ack, say):
 
 
 @app.action("no")
-def yes(body, ack, say):
+def no(body, ack, say):
     # Acknowledge the action
     ack()
     say(f"<@{body['user']['id']}> clicked no")
@@ -76,9 +76,9 @@ def register(ack, say, command):
 
         db.upsert_user_salary_date(username, user_id, day)
 
-        say(f"<@{user}> взима заплата на {day} число")
+        say(f"<@{username}> взима заплата на {day} число")
     except ValueError:
-        say(f"<@{user}> въведе невалидно число на заплата {raw_day}")
+        say(f"<@{username}> въведе невалидно число на заплата {raw_day}")
 
 
 # Start your app

@@ -4,6 +4,7 @@ who will get salary in the upcoming days.
 
 Also keeps user invite data up to date.
 '''
+from calendar import monthrange
 from datetime import date, timedelta
 
 import db
@@ -12,11 +13,16 @@ from slack import app
 
 print('Checking for upcoming salaries')
 
-today = date.today()
-one_day = timedelta(days=1)
-next_five_days = {(today + i * one_day).day for i in range(1, 6)}
+def is_salary_tomorrow(salary_day):
+    today = date.today()
+    month_end = monthrange(today.year, today.month)[1]
+    if salary_day > month_end:
+        salary_day = month_end
+    return today.day + 1 == salary_day
+
+
 for user in db.get_users().values():
-    if user.flex_status is None and user.salary_day in next_five_days:
+    if user.flex_status is None and is_salary_tomorrow(user.salary_day):
         print(f'User {user.username} has an upcoming salary')
         app.client.chat_postMessage(channel=user.user_id, text='ще черпиш ли утре', blocks=[
             {
